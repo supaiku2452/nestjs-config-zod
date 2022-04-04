@@ -15,7 +15,7 @@ export const serverSchema = {
     )
     .transform((val) => Number(val))
     .refine(
-      (val) => val > 3000 && val < 30000,
+      (val) => val >= 3000 && val <= 30000,
       (val) => ({
         message: `${val} must be greater than equal 3000 and less then equal 30000.`,
       }),
