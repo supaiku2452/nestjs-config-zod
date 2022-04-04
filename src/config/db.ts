@@ -6,5 +6,5 @@ export default registerAs('database', () => ({
 }));
 
 export const databaseSchema = {
-  URL: string().min(1).url(),
+  DATABASE_URL: string().min(1).url(),
 };

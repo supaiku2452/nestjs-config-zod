@@ -1,5 +1,5 @@
 import { registerAs } from '@nestjs/config';
-import { number } from 'zod';
+import { string } from 'zod';
 
 export default registerAs('server', () => ({
   port: process.env.PORT,
@@ -7,6 +7,17 @@ export default registerAs('server', () => ({
 }));
 
 export const serverSchema = {
-  PORT: number().default(3000),
-  TIMEOUT: number().gte(3000).lte(30000).default(10000),
+  PORT: string().default('3000'),
+  TIMEOUT: string()
+    .refine(
+      (val) => !Number.isNaN(val),
+      (val) => ({ message: `${val} cannot convert to Number.` }),
+    )
+    .transform((val) => Number(val))
+    .refine(
+      (val) => val > 3000 && val < 30000,
+      (val) => ({
+        message: `${val} must be greater than equal 3000 and less then equal 30000.`,
+      }),
+    ),
 };
