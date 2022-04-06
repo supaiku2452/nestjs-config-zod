@@ -7,10 +7,15 @@ export default registerAs('server', () => ({
 }));
 
 export const serverSchema = {
-  PORT: string().default('3000'),
+  PORT: string()
+    .min(1)
+    .refine(
+      (val) => !Number.isNaN(Number(val)),
+      (val) => ({ message: `${val} cannot convert to Number.` }),
+    ),
   TIMEOUT: string()
     .refine(
-      (val) => !Number.isNaN(val),
+      (val) => !Number.isNaN(Number(val)),
       (val) => ({ message: `${val} cannot convert to Number.` }),
     )
     .transform((val) => Number(val))
